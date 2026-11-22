@@ -1,0 +1,24 @@
+name: Discord Automation Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional note to include in Discord"
+        required: false
+        default: "Scheduled check completed."
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 09:00 UTC
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send update to Discord
+        env:
+          WEBHOOK_URL: ${{ secrets.https://discord.com/api/webhooks/1573978820963213322/QmUDodEf6nFzHwuzx4UWeur1jn1_icnFLrcoVaD27boLGEwdja56vR8zP9T17D238wfS }}
+          NOTE: ${{ inputs.note || 'Weekly automated agent run completed.' }}
+        run: |
+          curl -fsSL -X POST "$WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"🤖 **GitHub Agent:** $NOTE\"}"
