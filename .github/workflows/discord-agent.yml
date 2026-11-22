@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Send update to Discord
         env:
-          WEBHOOK_URL: ${{ secrets.https://discord.com/api/webhooks/1573978820963213322/QmUDodEf6nFzHwuzx4UWeur1jn1_icnFLrcoVaD27boLGEwdja56vR8zP9T17D238wfS }}
+          WEBHOOK_URL: ${{ secrets.tequilla }}
           NOTE: ${{ inputs.note || 'Weekly automated agent run completed.' }}
         run: |
           curl -fsSL -X POST "$WEBHOOK_URL" \
