@@ -31,7 +31,7 @@
   </form>
 
   <script>
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1573978820963213322/QmUDodEf6nFzHwuzx4UWeur1jn1_icnFLrcoVaD27boLGEwdja56vR8zP9T17D238wfS";
+    const WEBHOOK_URL = "${{ secrets.DISCORD_WEBHOOK_URL }}";
 
     document.getElementById("contactForm").addEventListener("submit", async function(e) {
       e.preventDefault();
