@@ -1,12 +1,80 @@
-<html>
-  <head>
-    <title>Warren Woodhouse: contact</title>
-  </head>
-  <body>
-    <script type="text/javascript"> 
-<!--
-window.location = "https://discord.com/users/warrenwoodhouse"
-//-->
-</script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warren Woodhouse: contact</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 450px; margin: 40px auto; padding: 20px; }
+    label { display: block; margin-top: 15px; font-weight: 600; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+    button { margin-top: 20px; padding: 12px 20px; background: #5865F2; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
+    button:hover { background: #4752C4; }
+    #status { margin-top: 15px; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <h2>Contact Form</h2>
+  <form id="contactForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" required placeholder="Your name">
+
+    <label for="email">Email or Discord Tag</label>
+    <input type="text" id="email" required placeholder="you@example.com">
+
+    <label for="message">Message</label>
+    <textarea id="message" rows="5" required placeholder="Write your message..."></textarea>
+
+    <button type="submit">Send Message</button>
+    <div id="status"></div>
+  </form>
+
+  <script>
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1573978820963213322/QmUDodEf6nFzHwuzx4UWeur1jn1_icnFLrcoVaD27boLGEwdja56vR8zP9T17D238wfS";
+
+    document.getElementById("contactForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const status = document.getElementById("status");
+      status.textContent = "Sending...";
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      // Format as a clean Discord Embed
+      const payload = {
+        embeds: [{
+          title: "📩 New Contact Form Submission",
+          color: 5793266, // Discord Blurple
+          fields: [
+            { name: "Name", value: name, inline: true },
+            { name: "Contact Info", value: email, inline: true },
+            { name: "Message", value: message }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          status.style.color = "green";
+          status.textContent = "Message sent successfully!";
+          document.getElementById("contactForm").reset();
+        } else {
+          throw new Error("Failed to send");
+        }
+      } catch (err) {
+        status.style.color = "red";
+        status.textContent = "Error sending message. Please try again.";
+      }
+    });
+  </script>
+</body>
 </html>
